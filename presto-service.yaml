@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: prestodb-objectstorage-service
+  name: prestodb-service
   labels:
-    app: prestodb-objectstorage-service
+    app: prestodb-service
 spec:
   type: NodePort
   ports:
-  - name: storage-app
+  - name: prestodb-app
     port: 80
     nodePort: 6443
     targetPort: 8080
   selector:
-    app: prestodb-objectstorage-service
+    app: coordinator
