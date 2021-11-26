@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  nginx.conf: |
+        user nginx;
+        worker_processes auto;
+        #error_log /var/log/nginx/error.log;
+        error_log stderr warn;
+        pid /run/nginx.pid;
+        # Load dynamic modules. See /usr/share/doc/nginx/README.dynamic.
+        include /usr/share/nginx/modules/*.conf;
+        events {
+        worker_connections 1024;
+           }
+        http {
+        #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                     # '$status $body_bytes_sent "$http_referer" '
+                     # '"$http_user_agent" "$http_x_forwarded_for"';
+        #access_log  /var/log/nginx/access.log  main;
+        access_log  /dev/stdout;
+        client_max_body_size 50m;
+        sendfile            on;
+        tcp_nopush          on;
+        tcp_nodelay         on;
+        keepalive_timeout   65;
+        types_hash_max_size 2048;
+        include             /etc/nginx/mime.types;
+        default_type        application/octet-stream;
+        # Load modular configuration files from the /etc/nginx/conf.d directory.
+        # See http://nginx.org/en/docs/ngx_core_module.html#include
+        # for more information.
+        #include /etc/nginx/conf.d/*.conf;
+        proxy_http_version 1.1; # this is essential for chunked responses to work
+        proxy_buffering    off;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Scheme $scheme;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   Host $http_host;
+        server {
+        add_header Content-Security-Policy "default-src 'self'; connect-src 'self' 'unsafe-inline' https://cdn.plot.ly wss://appshell-dev.cde.fullstream.ai https://matomo-dev.cde.fullstream.ai ; script-src 'self' data: code.jquery.com 'unsafe-eval' 'unsafe-inline' https://matomo-dev.cde.fullstream.ai ; style-src 'self' 'unsafe-inline' fonts.googleapis.com; object-src 'none'; base-uri 'self'; font-src 'self' 'unsafe-inline' data: fonts.gstatic.com; frame-src 'self' https://ss-kc-dev.cde.fullstream.ai https://www.figma.com https://aerion-uat.cde.fullstream.ai https://aerion-qa.cde.fullstream.ai https://aerion-dev.cde.fullstream.ai; img-src 'self' data: blob: http://svc.minio.default ; manifest-src 'self' https://gateway.zscalertwo.net; media-src 'self'; frame-ancestors 'self'; form-action 'self';";
+        listen       0.0.0.0:80;
+        server_name  cde-presto-dremio.com;
+        root         /usr/share/nginx/html;
+        # Load configuration files for the default server block.
+        #include /etc/nginx/default.d/*.conf;
+        location /test {
+            default_type text/plain;
+            return 200 'Welcome to test page for QUAD New App shell Dremio';
+        }
+        location /dremio {
+          proxy_pass http://dremio-client:9047;
+          proxy_set_header Host $host;
+          proxy_set_header X-RealIP $remote_addr;
+          proxy_redirect default;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection 'upgrade';
+        }
+        location / {
+          proxy_pass http://prestodb-service:80;
+          proxy_set_header Host $host;
+          proxy_set_header X-RealIP $remote_addr;
+          proxy_redirect default;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection 'upgrade';
+        }
+        }
+        }
+
