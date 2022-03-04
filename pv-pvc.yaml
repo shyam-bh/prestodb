@@ -1,0 +1,255 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dremio-default-executor-pv-dremio-executor-1
+  namespace: default
+spec:
+  storageClassName: aws-efs
+  capacity:
+    storage: 500Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /home/cde27_admin_user/dremio/executor-1
+  claimRef:
+    name: dremio-default-executor-volume-dremio-executor-1
+    namespace: default
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dremio-default-executor-volume-dremio-executor-1
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 500Gi
+  volumeName: dremio-default-executor-pv-dremio-executor-1
+  storageClassName: aws-efs
+
+
+
+---
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dremio-default-executor-pv-dremio-executor-0
+  namespace: default
+spec:
+  storageClassName: aws-efs
+  capacity:
+    storage: 500Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /home/cde27_admin_user/dremio/executor-0
+  claimRef:
+    name: dremio-default-executor-volume-dremio-executor-0
+    namespace: default
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dremio-default-executor-volume-dremio-executor-0
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 500Gi
+  volumeName: dremio-default-executor-pv-dremio-executor-0
+  storageClassName: aws-efs
+
+
+
+
+---
+
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dremio-default-executor-pv-dremio-executor-2
+  namespace: default
+spec:
+  storageClassName: aws-efs
+  capacity:
+    storage: 500Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /home/cde27_admin_user/dremio/executor-2
+  claimRef:
+    name: dremio-default-executor-volume-dremio-executor-2
+    namespace: default
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dremio-default-executor-volume-dremio-executor-2
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 500Gi
+  volumeName: dremio-default-executor-pv-dremio-executor-2
+  storageClassName: aws-efs
+
+
+
+---
+
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dremio-master-pv-dremio-master-0
+  namespace: default
+spec:
+  storageClassName: aws-efs
+  capacity:
+    storage: 500Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /home/cde27_admin_user/dremio/master-0
+  claimRef:
+    name: dremio-master-volume-dremio-master-0
+    namespace: default
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dremio-master-volume-dremio-master-0
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 500Gi
+  volumeName: dremio-master-pv-dremio-master-0
+  storageClassName: aws-efs
+
+
+
+---
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dremio-zookeeper-pv
+  namespace: default
+spec:
+  storageClassName: aws-efs
+  capacity:
+    storage: 500Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /home/cde27_admin_user/dremio/zk-0
+  claimRef:
+    name: datadir-zk-0
+    namespace: default
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: datadir-zk-0
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 500Gi
+  volumeName: dremio-zookeeper-pv
+  storageClassName: aws-efs
+
+
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dremio-zookeeper-pv-zk-1
+  namespace: default
+spec:
+  storageClassName: aws-efs
+  capacity:
+    storage: 500Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /home/cde27_admin_user/dremio/zk-1
+  claimRef:
+    name: datadir-zk-1
+    namespace: default
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: datadir-zk-1
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 500Gi
+  volumeName: dremio-zookeeper-pv-zk-1
+  storageClassName: aws-efs
+
+
+
+---
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dremio-zookeeper-pv-zk-2
+  namespace: default
+spec:
+  storageClassName: aws-efs
+  capacity:
+    storage: 500Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /home/cde27_admin_user/dremio/zk-2
+    claimRef:
+    name: datadir-zk-2
+    namespace: default
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: datadir-zk-2
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 500Gi
+  volumeName: dremio-zookeeper-pv-zk-2
+  storageClassName: aws-efs
